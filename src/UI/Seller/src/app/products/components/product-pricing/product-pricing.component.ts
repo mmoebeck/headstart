@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core'
 import { PriceSchedule, OcBuyerService } from '@ordercloud/angular-sdk'
-import { ToastrService } from 'ngx-toastr'
 import { FormControl } from '@angular/forms'
 import { BuyerTempService } from '@app-seller/shared/services/middleware-api/buyer-temp.service'
 import { CatalogsTempService } from '@app-seller/shared/services/middleware-api/catalogs-temp.service'
@@ -12,7 +11,6 @@ import {
 } from '@ordercloud/headstart-sdk'
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons'
 import { SupportedRates } from '@app-seller/models/currency-geography.types'
-import { ResourceUpdate } from '@app-seller/models/shared.types'
 import { HSBuyerPriceMarkup } from '@app-seller/models/buyer.types'
 
 @Component({
@@ -35,9 +33,10 @@ export class ProductPricingComponent {
   set superHSProductEditable(value: SuperHSProduct) {
     this.setData(value)
     if (value && this.readonly) {
-      this.setUpBuyers()
-      this.setUpExchangeRate()
-      this.buyerMarkedUpSupplierPrices = this.getBuyerDisplayOfSupplierPriceSchedule()
+      void this.setUpBuyers()
+      void this.setUpExchangeRate()
+      this.buyerMarkedUpSupplierPrices =
+        this.getBuyerDisplayOfSupplierPriceSchedule()
     }
   }
 
@@ -49,7 +48,7 @@ export class ProductPricingComponent {
 
   // defaulting to they are the same currency
   supplierToSellerCurrencyRate = 1
-  superProduct
+  superProduct: SuperHSProduct
 
   buyers: HSBuyer[] = []
   selectedBuyerIndex = 0
@@ -58,13 +57,12 @@ export class ProductPricingComponent {
   isUsingPriceOverride = false
   areChangesToBuyerVisibility = false
 
-  emptyPriceSchedule
+  emptyPriceSchedule: PriceSchedule
   isSavedOverride = false
-  overridePriceScheduleEditable
-  overridePriceScheduleStatic
+  overridePriceScheduleEditable: PriceSchedule
+  overridePriceScheduleStatic: PriceSchedule
 
   constructor(
-    private toasterService: ToastrService,
     private ocBuyerService: OcBuyerService,
     private catalogsTempService: CatalogsTempService,
     private buyerTempService: BuyerTempService
@@ -88,7 +86,7 @@ export class ProductPricingComponent {
     if (value) {
       this.supplierPriceSchedule = JSON.parse(
         JSON.stringify(value?.PriceSchedule)
-      )
+      ) as PriceSchedule
     }
   }
 
@@ -159,11 +157,12 @@ export class ProductPricingComponent {
     this.overridePriceScheduleEditable.Name =
       this.superProduct.Product.Name + ' Seller Override'
     if (!this.isSavedOverride && this.isUsingPriceOverride) {
-      const newPriceSchedule = await this.catalogsTempService.CreatePricingOverride(
-        productID,
-        buyerID,
-        this.overridePriceScheduleEditable
-      )
+      const newPriceSchedule =
+        await this.catalogsTempService.CreatePricingOverride(
+          productID,
+          buyerID,
+          this.overridePriceScheduleEditable
+        )
       this.isSavedOverride = true
       this.resetOverridePriceSchedules(newPriceSchedule)
     } else if (this.isSavedOverride && !this.isUsingPriceOverride) {
@@ -171,11 +170,12 @@ export class ProductPricingComponent {
       this.isSavedOverride = false
       this.resetOverridePriceSchedules(this.emptyPriceSchedule)
     } else {
-      const newPriceSchedule = await this.catalogsTempService.UpdatePricingOverride(
-        productID,
-        buyerID,
-        this.overridePriceScheduleEditable
-      )
+      const newPriceSchedule =
+        await this.catalogsTempService.UpdatePricingOverride(
+          productID,
+          buyerID,
+          this.overridePriceScheduleEditable
+        )
       this.isSavedOverride = true
       this.resetOverridePriceSchedules(newPriceSchedule)
     }
@@ -184,7 +184,7 @@ export class ProductPricingComponent {
   getBuyerDisplayOfSupplierPriceSchedule(): PriceSchedule {
     const priceScheduleCopy = JSON.parse(
       JSON.stringify(this.supplierPriceSchedule)
-    )
+    ) as PriceSchedule
     priceScheduleCopy.PriceBreaks = priceScheduleCopy.PriceBreaks.map((b) => {
       b.Price = this.getBuyerPercentMarkupPrice(b.Price)
       return b
@@ -192,7 +192,7 @@ export class ProductPricingComponent {
     return priceScheduleCopy
   }
 
-  setIsUsingPriceOverride(isUsingPriceOverride: boolean) {
+  setIsUsingPriceOverride(isUsingPriceOverride: boolean): void {
     this.isUsingPriceOverride = isUsingPriceOverride
     this.diffBuyerVisibility()
   }
@@ -207,6 +207,7 @@ export class ProductPricingComponent {
       this.isSavedOverride = true
       this.isUsingPriceOverride = true
     } catch (ex) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (ex?.error?.[0].ErrorCode === 'NotFound') {
         this.isSavedOverride = false
         this.isUsingPriceOverride = false
@@ -222,8 +223,10 @@ export class ProductPricingComponent {
   resetOverridePriceSchedules(priceSchedule: HSPriceSchedule): void {
     this.overridePriceScheduleEditable = JSON.parse(
       JSON.stringify(priceSchedule)
-    )
-    this.overridePriceScheduleStatic = JSON.parse(JSON.stringify(priceSchedule))
+    ) as PriceSchedule
+    this.overridePriceScheduleStatic = JSON.parse(
+      JSON.stringify(priceSchedule)
+    ) as PriceSchedule
     this.diffBuyerVisibility()
   }
 
@@ -238,7 +241,8 @@ export class ProductPricingComponent {
   async selectBuyer(buyer: HSBuyer): Promise<void> {
     const superBuyer = await this.buyerTempService.get(buyer.ID)
     this.selectedSuperHSBuyer = superBuyer
-    this.buyerMarkedUpSupplierPrices = this.getBuyerDisplayOfSupplierPriceSchedule()
-    this.getPriceScheduleOverrides()
+    this.buyerMarkedUpSupplierPrices =
+      this.getBuyerDisplayOfSupplierPriceSchedule()
+    void this.getPriceScheduleOverrides()
   }
 }
