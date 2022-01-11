@@ -47,7 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Headstart.Jobs", "src\Heads
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ordercloud.integrations.vertex", "integrations\ordercloud.integrations.vertex\ordercloud.integrations.vertex.csproj", "{FF77C6FA-058A-45E4-9D3D-A6D185892AEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ordercloud.integrations.taxjar", "integrations\ordercloud.integrations.taxjar\ordercloud.integrations.taxjar.csproj", "{39EA02AA-FD2B-4FF5-9CF4-6215659894A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ordercloud.integrations.taxjar", "integrations\ordercloud.integrations.taxjar\ordercloud.integrations.taxjar.csproj", "{39EA02AA-FD2B-4FF5-9CF4-6215659894A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ordercloud.integrations.contenthub", "integrations\ordercloud.integrations.contenthub\ordercloud.integrations.contenthub.csproj", "{EC94C439-9082-4FEE-B4CC-64AC0AB92020}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +133,10 @@ Global
 		{39EA02AA-FD2B-4FF5-9CF4-6215659894A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39EA02AA-FD2B-4FF5-9CF4-6215659894A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39EA02AA-FD2B-4FF5-9CF4-6215659894A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC94C439-9082-4FEE-B4CC-64AC0AB92020}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC94C439-9082-4FEE-B4CC-64AC0AB92020}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC94C439-9082-4FEE-B4CC-64AC0AB92020}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC94C439-9082-4FEE-B4CC-64AC0AB92020}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -152,6 +158,7 @@ Global
 		{A5C99CFB-230B-4B94-9F3E-F2682BFA5D3B} = {0B969DE0-4342-474E-A83B-BF34DAF05600}
 		{FF77C6FA-058A-45E4-9D3D-A6D185892AEC} = {CCAF8AD5-2FCC-46E0-82EF-2FCC0EEC8B16}
 		{39EA02AA-FD2B-4FF5-9CF4-6215659894A8} = {CCAF8AD5-2FCC-46E0-82EF-2FCC0EEC8B16}
+		{EC94C439-9082-4FEE-B4CC-64AC0AB92020} = {CCAF8AD5-2FCC-46E0-82EF-2FCC0EEC8B16}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D28C7C46-780F-4A68-80B8-9789997A37F7}

@@ -4,6 +4,7 @@ using ordercloud.integrations.library;
 using ordercloud.integrations.smartystreets;
 using ordercloud.integrations.taxjar;
 using ordercloud.integrations.vertex;
+using ordercloud.integrations.contenthub.Models;
 
 namespace Headstart.Common
 {
@@ -26,6 +27,7 @@ namespace Headstart.Common
         public StorageAccountSettings StorageAccountSettings { get; set; } = new StorageAccountSettings();
         public UI UI { get; set; }
         public ZohoSettings ZohoSettings { get; set; } = new ZohoSettings();
+        public ContentHubConfig ContentHubSettings { get; set; } = new ContentHubConfig();
     }
 
     public class ApplicationInsightsSettings

@@ -23,6 +23,8 @@ using ordercloud.integrations.avalara;
 using ordercloud.integrations.cardconnect;
 using ordercloud.integrations.exchangerates;
 using ordercloud.integrations.library;
+using ordercloud.integrations.contenthub;
+using ordercloud.integrations.contenthub.Models;
 using SendGrid;
 using SmartyStreets;
 using System;
@@ -239,6 +241,8 @@ namespace Headstart.API
                     List<string> xmlFiles = Directory.GetFiles(AppContext.BaseDirectory, "*.xml", SearchOption.TopDirectoryOnly).ToList();
                     xmlFiles.ForEach(xmlFile => c.IncludeXmlComments(xmlFile));
                 })
+                .AddSingleton<ContentHubConfig>(x => _settings.ContentHubSettings)
+                .Inject<IContentHubService>()
                 .AddSwaggerGenNewtonsoftSupport();
 
             var serviceProvider = services.BuildServiceProvider();

@@ -300,3 +300,5 @@ src/Middleware/ngrok.exe
 
 .DS_Store
 .env
+
+src/UI/Seller/src/assets/appConfigs/defaultadmin-test.json
